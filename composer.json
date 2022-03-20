@@ -1,0 +1,19 @@
+{
+    "name": "exan/framework",
+    "description": "A small and fast framework",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Rxak\\Framework\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Exan"
+        }
+    ],
+    "require": {
+        "symfony/var-dumper": "^6.0",
+        "symfony/http-foundation": "^6.0"
+    }
+}
