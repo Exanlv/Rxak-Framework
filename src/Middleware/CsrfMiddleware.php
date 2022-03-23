@@ -3,6 +3,7 @@
 namespace Rxak\Framework\Middleware;
 
 use Rxak\Framework\Http\Request;
+use Rxak\Framework\Session\Session;
 
 class CsrfMiddleware extends BaseMiddleware
 {
@@ -16,15 +17,15 @@ class CsrfMiddleware extends BaseMiddleware
             }
         }
 
-        $_SESSION[self::$sessionKey] = $this->generateCsrfToken();
+        Session::set(self::$sessionKey, $this->generateCsrfToken());
         
         $next($request, $middlewares);
     }
 
     private static function verifyCsrf(Request $request): bool
     {
-        return isset($_SESSION[self::$sessionKey])
-            && $request->get(self::$sessionKey) === $_SESSION[self::$sessionKey]
+        return Session::exists(self::$sessionKey)
+            && $request->get(self::$sessionKey) === Session::get(self::$sessionKey);
         ;
     }
 
@@ -49,6 +50,6 @@ class CsrfMiddleware extends BaseMiddleware
 
     public static function getCsrfToken(): string
     {
-        return isset($_SESSION[self::$sessionKey]) ? $_SESSION[self::$sessionKey] : '';
+        return Session::get(self::$sessionKey, '');
     }
 }
