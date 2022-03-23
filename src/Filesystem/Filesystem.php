@@ -16,6 +16,9 @@ class Filesystem
         return self::$filesystem;
     }
 
+    /**
+     * @var string $baseDir Root directory of the app, not ending with directory seperator
+     */
     private function __construct(public string $baseDir)
     {
         
