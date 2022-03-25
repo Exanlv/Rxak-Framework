@@ -52,123 +52,57 @@ class Route implements RouteInterface
         return $validator->validateResult();
     }
 
-    public static function get(
-        string $pattern,
-        string $controller,
-        string $method,
-        ?string $validator = null,
-        ?array $middlewares = null
-    ) {
-        return new self(
+    public static function create(string $pattern, string $controller, string $method, string $httpMethod, array $options): Route
+    {
+        $options = array_merge([
+                'validator' => null,
+                'middlewares' => null,
+            ], $options
+        );
+
+        return new Route(
             $pattern,
-            'GET',
+            $httpMethod,
             $controller,
             $method,
-            $validator,
-            $middlewares
+            $options['validator'],
+            $options['middlewares']
         );
     }
 
-    public static function post(
-        string $pattern,
-        string $controller,
-        string $method,
-        ?string $validator = null,
-        ?array $middlewares = null
-    ) {
-        return new self(
-            $pattern,
-            'POST',
-            $controller,
-            $method,
-            $validator,
-            $middlewares
-        );
+    public static function get(string $pattern, string $controller, string $method, array $options = [])
+    {
+        return self::create($pattern, $controller, $method, 'GET', $options);
     }
 
-    public static function put(
-        string $pattern,
-        string $controller,
-        string $method,
-        ?string $validator = null,
-        ?array $middlewares = null
-    ) {
-        return new self(
-            $pattern,
-            'PUT',
-            $controller,
-            $method,
-            $validator,
-            $middlewares
-        );
+    public static function post(string $pattern, string $controller, string $method, array $options = [])
+    {
+        return self::create($pattern, $controller, $method, 'POST', $options);
     }
 
-    public static function patch(
-        string $pattern,
-        string $controller,
-        string $method,
-        ?string $validator = null,
-        ?array $middlewares = null
-    ) {
-        return new self(
-            $pattern,
-            'PATCH',
-            $controller,
-            $method,
-            $validator,
-            $middlewares
-        );
+    public static function put(string $pattern, string $controller, string $method, array $options = [])
+    {
+        return self::create($pattern, $controller, $method, 'PUT', $options);
     }
 
-    public static function delete(
-        string $pattern,
-        string $controller,
-        string $method,
-        ?string $validator = null,
-        ?array $middlewares = null
-    ) {
-        return new self(
-            $pattern,
-            'DELETE',
-            $controller,
-            $method,
-            $validator,
-            $middlewares
-        );
+    public static function patch(string $pattern, string $controller, string $method, array $options = [])
+    {
+        return self::create($pattern, $controller, $method, 'PATCH', $options);
     }
 
-    public static function options(
-        string $pattern,
-        string $controller,
-        string $method,
-        ?string $validator = null,
-        ?array $middlewares = null
-    ) {
-        return new self(
-            $pattern,
-            'OPTIONS',
-            $controller,
-            $method,
-            $validator,
-            $middlewares
-        );
+    public static function delete(string $pattern, string $controller, string $method, array $options = [])
+    {
+        return self::create($pattern, $controller, $method, 'DELETE', $options);
     }
 
-    public static function head(
-        string $pattern,
-        string $controller,
-        string $method,
-        ?string $validator = null,
-        ?array $middlewares = null
-    ) {
-        return new self(
-            $pattern,
-            'HEAD',
-            $controller,
-            $method,
-            $validator,
-            $middlewares
-        );
+    public static function options(string $pattern, string $controller, string $method, array $options = [])
+    {
+        return self::create($pattern, $controller, $method, 'OPTIONS', $options);
+    }
+
+    public static function head(string $pattern, string $controller, string $method, array $options = [])
+    {
+        return self::create($pattern, $controller, $method, 'HEAD', $options);
     }
 
     /**
@@ -176,11 +110,13 @@ class Route implements RouteInterface
      * @return Route[]
      */
     public static function group(
-        array $middlewares = null,
+        array $options = null,
         array $routes = []
     ): array {
         foreach ($routes as &$route) {
-            $route->middlewares = $middlewares;
+            foreach ($options as $key => $value) {
+                $route->{$key} = $value;
+            }
         }
 
         return $routes;

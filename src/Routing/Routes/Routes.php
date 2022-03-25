@@ -27,8 +27,10 @@ $router->registerRoutes(
         '/^\/contact$/',
         HomeController::class,
         'feedback',
-        FeedbackValidator::class,
-        [TestMiddleware::class, AnotherMiddleware::class]
+        [
+            'validator' => FeedbackValidator::class,
+            'middlewares' => [TestMiddleware::class, AnotherMiddleware::class]
+        ]
     ),
     ...$homeRoutes,
 );
