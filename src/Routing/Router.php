@@ -76,12 +76,12 @@ class Router
                 $finalRouteHandler = $routeHandler;
             }
     
-            $errorCode = $finalRouteHandler === null ? 404 : 403;
+            $errorCode = $finalRouteHandler === null ? 404 : 405;
 
             throw new SafeException(
                 $errorCode,
                 [
-                    403 => 'Method not allowed.',
+                    405 => 'Method not allowed.',
                     404 => 'Page not found.',
                 ][$errorCode]
             );
