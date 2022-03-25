@@ -16,4 +16,6 @@ interface RouteInterface
      * @return bool|\Rxak\Framework\Validation\ValidationException[]
      */
     public function validate(Request $request): bool|array;
+
+    public function getSummary(): string;
 }

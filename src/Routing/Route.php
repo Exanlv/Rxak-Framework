@@ -6,6 +6,18 @@ use Rxak\Framework\Http\Request;
 
 class Route implements RouteInterface
 {
+    public function getSummary(): string
+    {
+        $summary  = 'Route `' . $this->pattern . '`:' . PHP_EOL;
+        $summary .= '  HTTP Method: ' . $this->httpMethod . PHP_EOL;
+        $summary .= '  Controller: ' . $this->controller . PHP_EOL;
+        $summary .= '  Method: ' . $this->method . PHP_EOL;
+        $summary .= '  Validator: ' . ($this->validator ?? 'None') . PHP_EOL;
+        $summary .= '  Middlewares: ' . ($this->hasMiddlewares() ? implode(', ', $this->middlewares) : 'None') . PHP_EOL;
+
+        return $summary;
+    }
+
     /**
      * @var string[] $middlewares
      */
@@ -15,7 +27,7 @@ class Route implements RouteInterface
         public string $controller,
         public string $method,
         public ?string $validator = null,
-        public ?array $middlewares = null
+        public array $middlewares = []
     ) {
         
     }
@@ -56,7 +68,7 @@ class Route implements RouteInterface
     {
         $options = array_merge([
                 'validator' => null,
-                'middlewares' => null,
+                'middlewares' => [],
             ], $options
         );
 
@@ -124,6 +136,6 @@ class Route implements RouteInterface
 
     public function hasMiddlewares(): bool
     {
-        return $this->middlewares === null ? false : count($this->middlewares) > 0;
+        return count($this->middlewares) > 0;
     }
 }
