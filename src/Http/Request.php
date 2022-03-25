@@ -21,4 +21,11 @@ class Request extends HttpFoundationRequest
 
         return parent::get($key, $default);
     }
+
+    public function getMethod(): string
+    {
+        $httpMethod = parent::getMethod();
+
+        return $httpMethod === 'POST' ? $this->get('_method', $httpMethod) : $httpMethod;
+    }
 }
