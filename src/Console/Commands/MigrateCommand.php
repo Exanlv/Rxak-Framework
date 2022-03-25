@@ -47,6 +47,8 @@ class MigrateCommand extends Command
 
     private function createMigrationsTable(): void
     {
+        echo 'Creating migrations table...', PHP_EOL;
+
         Manager::schema()->create($this->migrationsTable, function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
