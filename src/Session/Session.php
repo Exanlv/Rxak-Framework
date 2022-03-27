@@ -9,7 +9,7 @@ class Session
         $_SESSION[$key] = $data;
     }
 
-    public static function get(string $key, mixed $default = null)
+    public static function get(string $key, mixed $default = null): mixed
     {
         return isset($_SESSION[$key]) ? $_SESSION[$key] : $default;
     }
@@ -17,5 +17,10 @@ class Session
     public static function exists(string $key): bool
     {
         return isset($_SESSION[$key]);
+    }
+
+    public static function delete(string $key): void
+    {
+        unset($_SESSION[$key]);
     }
 }
