@@ -17,6 +17,7 @@
         "symfony/http-foundation": "^6.0",
         "illuminate/database": "^9.5",
         "symfony/console": "^6.0",
-        "monolog/monolog": "^2.4"
+        "monolog/monolog": "^2.4",
+        "vlucas/phpdotenv": "^5.4"
     }
 }
