@@ -83,6 +83,8 @@ class RouteHandler extends RouteHandlerBase
 
     private function handleValidation(Request $request)
     {
-        $this->route->validate($request);
+        if ($this->route->requiresValidation()) {
+            $this->route->validate($request);
+        }
     }
 }
