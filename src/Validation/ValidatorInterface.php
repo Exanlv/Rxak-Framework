@@ -11,5 +11,7 @@ interface ValidatorInterface
      */
     public function validate();
 
+    public function authorized(): bool;
+
     public function validateResult(): bool|array;
 }

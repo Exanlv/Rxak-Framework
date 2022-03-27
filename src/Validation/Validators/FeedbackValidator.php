@@ -6,6 +6,11 @@ use Rxak\Framework\Validation\Validator;
 
 class FeedbackValidator extends Validator
 {
+    public function authorized(): bool
+    {
+        return true;
+    }
+
     public function validate(): void
     {
         $this->minLength('email', 16);

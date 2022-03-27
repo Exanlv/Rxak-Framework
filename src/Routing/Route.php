@@ -2,6 +2,7 @@
 
 namespace Rxak\Framework\Routing;
 
+use Rxak\Framework\Exception\SafeException;
 use Rxak\Framework\Http\Request;
 
 class Route implements RouteInterface
@@ -59,6 +60,10 @@ class Route implements RouteInterface
          * @var \Rxak\Framework\Validation\ValidatorInterface
          */
         $validator = new $this->validator($request);
+
+        if ($validator->authorized() === false) {
+            throw new SafeException(403, 'Unauthorized.');
+        }
 
         $validator->validate();
 

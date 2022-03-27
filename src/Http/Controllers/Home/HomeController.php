@@ -30,6 +30,6 @@ class HomeController extends BaseController
 
     public function feedback(Request $request)
     {
-        throw new \Exception('Hello there');
+        throw new \Rxak\Framework\Exception\SafeException(200, 'Hello there');
     }
 }

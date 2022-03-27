@@ -30,7 +30,6 @@ $router->registerRoutes(
         'feedback',
         [
             'validator' => FeedbackValidator::class,
-            'middlewares' => [TestMiddleware::class, AnotherMiddleware::class]
         ]
     ),
     ...$homeRoutes,

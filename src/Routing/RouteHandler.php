@@ -20,23 +20,8 @@ class RouteHandler extends RouteHandlerBase
 
     public function handleRoute(Request $request)
     {
-        if ($this->route->mappers && count($this->matches) > 0) {
-            for ($i = 0; $i < count($this->route->mappers); $i++) {
-                /**
-                 * Set $this->matches[$i] to the resulting value of a callable or a class implementing getFromRoute.
-                 * If result is null $noResult will be true
-                 * @var bool $noResult
-                 */
-                $noResult = null === $this->matches[$i] = is_callable($this->route->mappers[$i])
-                    ? $this->matches[$i] = $this->route->mappers[$i]($this->matches[$i])
-                    : $this->matches[$i] = $this->route->mappers[$i]::getFromRoute($this->matches[$i])
-                ;
-
-                if ($noResult) {
-                    throw new SafeException(404, 'Not found.');
-                }
-            }
-        }
+        $this->handleMappers();
+        $this->handleValidation($request);
 
         if ($this->route->hasMiddlewares()) {
             $this->runMiddlewares($request);
@@ -75,5 +60,31 @@ class RouteHandler extends RouteHandlerBase
         };
 
         $runMiddlewares($request, $middlewares);
+    }
+
+    private function handleMappers(): void
+    {
+        if ($this->route->mappers && count($this->matches) > 0) {
+            for ($i = 0; $i < count($this->route->mappers); $i++) {
+                /**
+                 * Set $this->matches[$i] to the resulting value of a callable or a class implementing getFromRoute.
+                 * If result is null $noResult will be true
+                 * @var bool $noResult
+                 */
+                $noResult = null === $this->matches[$i] = is_callable($this->route->mappers[$i])
+                    ? $this->matches[$i] = $this->route->mappers[$i]($this->matches[$i])
+                    : $this->matches[$i] = $this->route->mappers[$i]::getFromRoute($this->matches[$i])
+                ;
+
+                if ($noResult) {
+                    throw new SafeException(404, 'Not found.');
+                }
+            }
+        }
+    }
+
+    private function handleValidation(Request $request)
+    {
+        $this->route->validate($request);
     }
 }
