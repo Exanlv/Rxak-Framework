@@ -2,21 +2,42 @@
 
 namespace Rxak\Framework\Routing;
 
+use Rxak\Framework\Exception\SafeException;
 use Rxak\Framework\Http\Request;
 use Rxak\Framework\Http\Response;
 use Rxak\Framework\Templating\Templates\ErrorPage;
 
 class RouteHandler extends RouteHandlerBase
 {
+    public array $matches;
+
     public function __construct(
-        public array $matches,
+        array $matches,
         private Route $route
     ) {
-        
+        $this->matches = array_splice($matches, 1);
     }
 
     public function handleRoute(Request $request)
     {
+        if ($this->route->mappers && count($this->matches) > 0) {
+            for ($i = 0; $i < count($this->route->mappers); $i++) {
+                /**
+                 * Set $this->matches[$i] to the resulting value of a callable or a class implementing getFromRoute.
+                 * If result is null $noResult will be true
+                 * @var bool $noResult
+                 */
+                $noResult = null === $this->matches[$i] = is_callable($this->route->mappers[$i])
+                    ? $this->matches[$i] = $this->route->mappers[$i]($this->matches[$i])
+                    : $this->matches[$i] = $this->route->mappers[$i]::getFromRoute($this->matches[$i])
+                ;
+
+                if ($noResult) {
+                    throw new SafeException(404, 'Not found.');
+                }
+            }
+        }
+
         if ($this->route->hasMiddlewares()) {
             $this->runMiddlewares($request);
         }
@@ -26,7 +47,7 @@ class RouteHandler extends RouteHandlerBase
         $params = [$request];
 
         if (count($this->matches) > 0) {
-            $params = array_merge($params, array_splice($this->matches, 1));
+            $params = array_merge($params, $this->matches);
         }
 
         $response = $controller->{$this->route->method}(...$params);

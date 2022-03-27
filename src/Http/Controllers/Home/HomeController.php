@@ -7,6 +7,7 @@ use Rxak\Framework\Http\Controllers\BaseController;
 use Rxak\Framework\Http\Request;
 use Rxak\Framework\Http\Response;
 use Rxak\Framework\Logging\Logger;
+use Rxak\Framework\Models\User;
 use Rxak\Framework\Templating\Templates\HomePage;
 
 class HomeController extends BaseController
@@ -21,8 +22,9 @@ class HomeController extends BaseController
         );
     }
 
-    public function hello(Request $request, string $next)
+    public function hello(Request $request, User $user)
     {
+        dd($user);
         throw new Exception();
     }
 
