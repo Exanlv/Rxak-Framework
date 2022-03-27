@@ -11,9 +11,14 @@ return [
         'rxak' => [
             'handlers' => [
                 new RotatingFileHandler(
-                    Filesystem::getInstance()->baseDir . '/logs/rxak.log',
+                    Filesystem::getInstance()->baseDir . '/logs/rxak.info.log',
                     5,
                     Logger::INFO
+                ),
+                new RotatingFileHandler(
+                    Filesystem::getInstance()->baseDir . '/logs/rxak.error.log',
+                    5,
+                    Logger::ERROR
                 ),
             ],
         ],

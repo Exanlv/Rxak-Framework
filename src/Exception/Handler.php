@@ -5,6 +5,7 @@ namespace Rxak\Framework\Exception;
 use Exception;
 use Rxak\Framework\Http\Request;
 use Rxak\Framework\Http\Response;
+use Rxak\Framework\Logging\Logger;
 use Rxak\Framework\Templating\Templates\ErrorPage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -25,6 +26,7 @@ class Handler
     public function reportError(Exception $e, Request $request)
     {
         if (!$e instanceof SafeException) {
+            Logger::error($e);
             $e = new SafeException(502);
         }
 
