@@ -6,12 +6,15 @@ use Exception;
 use Rxak\Framework\Http\Controllers\BaseController;
 use Rxak\Framework\Http\Request;
 use Rxak\Framework\Http\Response;
+use Rxak\Framework\Logging\Logger;
 use Rxak\Framework\Templating\Templates\HomePage;
 
 class HomeController extends BaseController
 {
     public function home(Request $request)
     {
+        Logger::info('Hello there');
+
         return new Response(
             new HomePage('Hello world!'),
             200

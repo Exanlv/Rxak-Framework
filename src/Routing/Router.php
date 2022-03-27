@@ -51,7 +51,7 @@ class Router
                 if ($routeHandler === false) {
                     continue;
                 }
-    
+
                 if ($route->methodOk($request)) {
                     if ($route->requiresValidation()) {
                         /**
