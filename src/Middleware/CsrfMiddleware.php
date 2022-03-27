@@ -2,6 +2,7 @@
 
 namespace Rxak\Framework\Middleware;
 
+use Rxak\Framework\Config\Config;
 use Rxak\Framework\Http\Request;
 use Rxak\Framework\Session\Session;
 
@@ -13,7 +14,7 @@ class CsrfMiddleware extends BaseMiddleware
     {
         if ($request->isMethod('POST')) {
             if (!$this->verifyCsrf($request)) {
-                dd('csrf failed');
+                throw Config::get('exceptions.419');
             }
         }
 

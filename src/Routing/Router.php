@@ -3,8 +3,8 @@
 namespace Rxak\Framework\Routing;
 
 use Exception;
+use Rxak\Framework\Config\Config;
 use Rxak\Framework\Exception\Handler;
-use Rxak\Framework\Exception\SafeException;
 use Rxak\Framework\Validation\ValidationException;
 use Rxak\Framework\Http\Request;
 
@@ -76,15 +76,7 @@ class Router
                 $finalRouteHandler = $routeHandler;
             }
     
-            $errorCode = $finalRouteHandler === null ? 404 : 405;
-
-            throw new SafeException(
-                $errorCode,
-                [
-                    405 => 'Method not allowed.',
-                    404 => 'Page not found.',
-                ][$errorCode]
-            );
+            throw Config::get($finalRouteHandler === null ? 'exceptions.404' : 'exceptions.405');
         } catch (Exception $e) {
             Handler::getInstance()->reportError($e, $request);
         }

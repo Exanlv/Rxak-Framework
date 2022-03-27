@@ -2,10 +2,8 @@
 
 namespace Rxak\Framework\Routing;
 
-use Rxak\Framework\Exception\SafeException;
+use Rxak\Framework\Config\Config;
 use Rxak\Framework\Http\Request;
-use Rxak\Framework\Http\Response;
-use Rxak\Framework\Templating\Templates\ErrorPage;
 
 class RouteHandler extends RouteHandlerBase
 {
@@ -77,7 +75,7 @@ class RouteHandler extends RouteHandlerBase
                 ;
 
                 if ($noResult) {
-                    throw new SafeException(404, 'Not found.');
+                    throw Config::get('exceptions.404');
                 }
             }
         }

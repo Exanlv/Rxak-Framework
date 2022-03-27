@@ -8,7 +8,7 @@ class FeedbackValidator extends Validator
 {
     public function authorized(): bool
     {
-        return true;
+        return false;
     }
 
     public function validate(): void
