@@ -32,4 +32,9 @@ return [
      * Thrown when a client fails the CSRF checks. Unofficial use, adopted from Laravel
      */
     '419' => new SafeException(419, 'Page expired.'),
+
+    /**
+     * Thrown when the method specified in a route is not implemented
+     */
+    '501' => new SafeException(501, 'Not implemented.'),
 ];

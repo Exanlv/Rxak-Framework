@@ -2,7 +2,10 @@
 
 namespace Rxak\Framework\Routing;
 
+use Error;
+use Exception;
 use Rxak\Framework\Config\Config;
+use Rxak\Framework\Exception\SafeException;
 use Rxak\Framework\Http\Request;
 
 class RouteHandler extends RouteHandlerBase
@@ -33,7 +36,15 @@ class RouteHandler extends RouteHandlerBase
             $params = array_merge($params, $this->matches);
         }
 
-        $response = $controller->{$this->route->method}(...$params);
+        try {
+            $response = $controller->{$this->route->method}(...$params);
+        } catch (Error $e) {
+            if ($e->getMessage() === ('Call to undefined method ' . $this->route->controller . '::' . $this->route->method . '()')) {
+                throw Config::get('exceptions.501');
+            }
+
+            throw $e;
+        }
 
         $this->returnResponse($request, $response);
     }
