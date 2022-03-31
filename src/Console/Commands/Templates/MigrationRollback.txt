@@ -1,0 +1,8 @@
+<?php
+
+use Illuminate\Database\Capsule\Manager;
+use Illuminate\Database\Schema\Blueprint;
+
+Manager::schema()->table('table', function (Blueprint $table) {
+    // ..
+});

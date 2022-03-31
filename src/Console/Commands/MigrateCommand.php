@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateCommand extends Command
 {
-    private string $migrationsPath;
     private string $migrationsTable;
 
     protected static $defaultName = 'migrate';
@@ -25,7 +24,6 @@ class MigrateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->migrationsPath = Config::get('migrations.path');
         $this->migrationsTable = Config::get('migrations.table');
 
         if (!Manager::schema()->hasTable('migrations')) {
@@ -64,7 +62,7 @@ class MigrateCommand extends Command
         }, $completedMigrations);
 
         $migrations = array_filter(
-            scandir(Filesystem::getInstance()->baseDir . '/' . $this->migrationsPath),
+            scandir(self::getMigrationsPath()),
             function (string $item) use ($completedMigrations) {
                 return !in_array(
                     $item,
@@ -101,7 +99,7 @@ class MigrateCommand extends Command
         echo 'Running migration ', $migration, '... ';
 
         try {
-            require(Filesystem::getInstance()->baseDir . '/' . $this->migrationsPath . '/' . $migration . '/' . '/migrate.php');
+            require(self::getMigrationsPath() . '/' . $migration . '/' . '/migrate.php');
         } catch (\Exception $e) {
             echo 'Failed', PHP_EOL;
 
@@ -114,5 +112,10 @@ class MigrateCommand extends Command
             'name' => $migration,
             'batch' => $batch
         ]);
+    }
+
+    public static function getMigrationsPath(): string
+    {
+        return Filesystem::getInstance()->baseDir . '/' . Config::get('migrations.path');
     }
 }

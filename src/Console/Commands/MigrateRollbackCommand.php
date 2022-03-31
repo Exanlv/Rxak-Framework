@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateRollbackCommand extends Command
 {
-    private string $migrationsPath;
     private string $migrationsTable;
 
     protected static $defaultName = 'migrate:rollback';
@@ -25,7 +24,6 @@ class MigrateRollbackCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->migrationsPath = Config::get('migrations.path');
         $this->migrationsTable = Config::get('migrations.table');
 
         if (!Manager::schema()->hasTable('migrations')) {
@@ -82,7 +80,7 @@ class MigrateRollbackCommand extends Command
         echo 'Reversing migration ', $migration, '... ';
 
         try {
-            require(Filesystem::getInstance()->baseDir . '/' . $this->migrationsPath . '/' . $migration . '/' . '/rollback.php');
+            require(MigrateCommand::getMigrationsPath() . '/' . $migration . '/' . '/rollback.php');
         } catch (\Exception $e) {
             echo 'Failed', PHP_EOL;
 
