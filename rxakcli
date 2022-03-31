@@ -8,8 +8,6 @@ use Rxak\Framework\Filesystem\Filesystem;
 
 require __DIR__ . '/vendor/autoload.php';
 
-Filesystem::init(__DIR__);
-
 App::init();
 
 $kernel = new Kernel();

@@ -13,6 +13,9 @@ class App
 {
     public static function init(): void
     {
+        Filesystem::init(__DIR__ . '/..');
+        Logger::init();
+
         /**
          * Initialize database/eloquent
          */
