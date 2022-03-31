@@ -21,7 +21,9 @@ class Kernel extends SymfonyApplication
 
         $dir = array_map(function ($item) {
             return substr($item, 0, strlen($item) - 4);
-        }, $dir);
+        }, array_filter($dir, function (string $filename) {
+            return str_ends_with($filename, '.php');
+        }));
 
         foreach ($dir as $command) {
             $this->add(new ('Rxak\Framework\Console\Commands\\' . $command));

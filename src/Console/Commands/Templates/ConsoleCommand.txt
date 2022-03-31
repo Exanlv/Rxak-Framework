@@ -1,0 +1,21 @@
+<?php
+
+namespace Rxak\Framework\Console\Commands;
+
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class __CLASSNAME__ extends Command
+{
+    protected static $defaultName = 'example:command';
+
+    protected function configure(): void
+    {
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        return Command::SUCCESS;
+    }
+}
