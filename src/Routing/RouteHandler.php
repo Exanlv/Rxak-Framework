@@ -3,9 +3,7 @@
 namespace Rxak\Framework\Routing;
 
 use Error;
-use Exception;
 use Rxak\Framework\Config\Config;
-use Rxak\Framework\Exception\SafeException;
 use Rxak\Framework\Http\Request;
 
 class RouteHandler extends RouteHandlerBase
