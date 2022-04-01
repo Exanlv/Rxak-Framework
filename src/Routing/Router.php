@@ -8,7 +8,7 @@ use Rxak\Framework\Config\Config;
 use Rxak\Framework\Exception\Handler;
 use Rxak\Framework\Http\Request;
 
-class Router
+abstract class Router
 {
     private static ?Router $router = null;
 
@@ -23,13 +23,10 @@ class Router
 
     public static function getInstance(): Router
     {
-        return self::$router ?? self::$router = new Router();
+        return self::$router ?? self::$router = new static();
     }
 
-    public function loadRoutes(): void
-    {
-        include __DIR__ . '/Routes/Routes.php';
-    }
+    abstract public function loadRoutes(): void;
 
     public function handleRequest(Request $request): void
     {

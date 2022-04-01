@@ -1,1 +1,0 @@
-<input type="hidden" name="<?= $formName ?>" value="<?= $csrfToken ?>">

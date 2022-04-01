@@ -20,7 +20,6 @@ class RouteHandler extends RouteHandlerBase
 
     public function handleRoute(Request $request)
     {
-        // dd($this->route);
         $this->handleMappers();
 
         if ($this->route->hasMiddlewares()) {

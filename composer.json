@@ -1,7 +1,7 @@
 {
-    "name": "exan/framework",
-    "description": "A small and fast framework",
-    "type": "project",
+    "name": "rxak/support",
+    "description": "Support for Rxak framework",
+    "type": "library",
     "autoload": {
         "psr-4": {
             "Rxak\\Framework\\": "src/"
@@ -12,6 +12,7 @@
             "name": "Exan"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
         "symfony/var-dumper": "^6.0",
         "symfony/http-foundation": "^6.0",

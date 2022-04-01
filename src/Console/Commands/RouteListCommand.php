@@ -2,7 +2,7 @@
 
 namespace Rxak\Framework\Console\Commands;
 
-use Rxak\Framework\Routing\Router;
+use Rxak\App\Routes\Router;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
