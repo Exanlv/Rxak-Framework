@@ -42,7 +42,7 @@ class CreateConsoleCommand extends Command
             str_replace(
                 '__CLASSNAME__',
                 $commandName,
-                file_get_contents($basePath . '/Templates/ConsoleCommand.txt')
+                file_get_contents(__DIR__ . '/Templates/ConsoleCommand.txt')
             )
         );
 
