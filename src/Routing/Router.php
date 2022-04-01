@@ -3,9 +3,9 @@
 namespace Rxak\Framework\Routing;
 
 use Exception;
+use Rxak\Framework\App;
 use Rxak\Framework\Config\Config;
 use Rxak\Framework\Exception\Handler;
-use Rxak\Framework\Validation\ValidationException;
 use Rxak\Framework\Http\Request;
 
 class Router
@@ -40,6 +40,8 @@ class Router
         } catch (\Exception $e) {
             Handler::getInstance()->reportError($e, $request);
         }
+
+        App::terminate();
     }
 
     public function getRoute(Request $request): RouteHandlerBase
@@ -53,23 +55,6 @@ class Router
                 }
 
                 if ($route->methodOk($request)) {
-                    if ($route->requiresValidation()) {
-                        /**
-                         * @var \Rxak\Framework\Validation\ValidationException[] $errors
-                         */
-                        $validation = null;
-    
-                        try {
-                            $validation = $route->validate($request);
-                        } catch (ValidationException $e) {
-                            $validation = [$e];
-                        }
-    
-                        if ($validation !== true) {
-                            dd($validation);
-                        }
-                    }
-    
                     return $routeHandler;
                 }
     

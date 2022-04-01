@@ -13,10 +13,5 @@ use Rxak\Framework\Templating\Components\Csrf;
 </head>
 <body>
     <?= $body ?>
-    <form method="post" action="/test">
-        <?= new Csrf() ?>
-
-        <input type="submit">
-    </form>
 </body>
 </html>

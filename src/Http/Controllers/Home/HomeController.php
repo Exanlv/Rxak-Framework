@@ -3,7 +3,6 @@
 namespace Rxak\Framework\Http\Controllers\Home;
 
 use Exception;
-use Rxak\Framework\App;
 use Rxak\Framework\Http\Controllers\BaseController;
 use Rxak\Framework\Http\Request;
 use Rxak\Framework\Http\Response;
@@ -15,7 +14,6 @@ class HomeController extends BaseController
 {
     public function home(Request $request)
     {
-        dd(App::env('APP_ENV'));
         Logger::info('Hello there');
 
         return new Response(

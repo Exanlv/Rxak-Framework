@@ -2,12 +2,12 @@
 
 namespace Rxak\Framework\Validation;
 
-use Rxak\Framework\Validation\Rules\Length;
 use Rxak\Framework\Http\Request;
+use Rxak\Framework\Validation\Rules\MinLength;
 
 abstract class Validator implements ValidatorInterface
 {
-    use Length;
+    use MinLength;
 
     public bool $bail = false;
 
@@ -38,10 +38,6 @@ abstract class Validator implements ValidatorInterface
     {
         if (!$validation($this->request->get($field, $defaultValue))) {
             $exception = new ValidationException($field, $check);
-
-            if ($this->bail) {
-                throw $exception;
-            }
 
             $this->errors[] = $exception;
         }

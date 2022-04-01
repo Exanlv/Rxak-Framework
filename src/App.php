@@ -8,6 +8,7 @@ use Illuminate\Database\Capsule\Manager;
 use Rxak\Framework\Config\Config;
 use Rxak\Framework\Filesystem\Filesystem;
 use Rxak\Framework\Logging\Logger;
+use Rxak\Framework\Session\MessageBag;
 
 class App
 {
@@ -28,6 +29,11 @@ class App
          * Load .env
          */
         (Dotenv::createImmutable(Filesystem::getInstance()->baseDir))->load();
+    }
+
+    public static function terminate(): void
+    {
+        MessageBag::getInstance()?->terminate();
     }
 
     public static function env(string $key, string $default = ''): string

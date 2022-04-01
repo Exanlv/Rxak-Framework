@@ -4,6 +4,7 @@ namespace Rxak\Framework\Routing;
 
 use Error;
 use Rxak\Framework\Config\Config;
+use Rxak\Framework\Exception\ValidationFailedException;
 use Rxak\Framework\Http\Request;
 
 class RouteHandler extends RouteHandlerBase
@@ -19,12 +20,14 @@ class RouteHandler extends RouteHandlerBase
 
     public function handleRoute(Request $request)
     {
+        // dd($this->route);
         $this->handleMappers();
-        $this->handleValidation($request);
 
         if ($this->route->hasMiddlewares()) {
             $this->runMiddlewares($request);
         }
+
+        $this->handleValidation($request);
 
         $controller = $this->route->controller::getInstance();
 
@@ -90,10 +93,18 @@ class RouteHandler extends RouteHandlerBase
         }
     }
 
-    private function handleValidation(Request $request)
+    private function handleValidation(Request $request): void
     {
-        if ($this->route->requiresValidation()) {
-            $this->route->validate($request);
+        if (!$this->route->requiresValidation()) {
+            return;
         }
+
+        $result = $this->route->validate($request);
+
+        if ($result === true) {
+            return;
+        }
+
+        throw new ValidationFailedException($result);
     }
 }
