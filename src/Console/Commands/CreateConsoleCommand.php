@@ -48,7 +48,6 @@ class CreateConsoleCommand extends Command
 
         echo 'Command ', $commandName, ' created. ', $finalizedFilename, PHP_EOL;
 
-
         return Command::SUCCESS;
     }
 }

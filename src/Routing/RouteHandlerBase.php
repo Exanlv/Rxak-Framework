@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class RouteHandlerBase
 {
-    abstract public function handleRoute(Request $request);
+    abstract public function handleRoute(Request $request): Response;
 
-    protected function returnResponse(Request $request, mixed $response)
+    protected function returnResponse(Request $request, mixed $response): void
     {
         if ($response instanceof Response) {
             $response->prepare($request);

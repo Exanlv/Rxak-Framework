@@ -6,6 +6,7 @@ use Error;
 use Rxak\Framework\Config\Config;
 use Rxak\Framework\Exception\ValidationFailedException;
 use Rxak\Framework\Http\Request;
+use Rxak\Framework\Http\Response;
 
 class RouteHandler extends RouteHandlerBase
 {
@@ -18,7 +19,7 @@ class RouteHandler extends RouteHandlerBase
         $this->matches = array_splice($matches, 1);
     }
 
-    public function handleRoute(Request $request)
+    public function handleRoute(Request $request): Response
     {
         $this->handleMappers();
 
@@ -46,7 +47,7 @@ class RouteHandler extends RouteHandlerBase
             throw $e;
         }
 
-        $this->returnResponse($request, $response);
+        return $response;
     }
 
     public function runMiddlewares(Request $request)

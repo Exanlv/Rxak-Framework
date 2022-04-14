@@ -7,8 +7,10 @@ use Exception;
 use Illuminate\Database\Capsule\Manager;
 use Rxak\Framework\Config\Config;
 use Rxak\Framework\Filesystem\Filesystem;
+use Rxak\Framework\Http\Request;
 use Rxak\Framework\Logging\Logger;
 use Rxak\Framework\Session\MessageBag;
+use Symfony\Component\HttpFoundation\Response;
 
 class App
 {
@@ -44,5 +46,12 @@ class App
         }
 
         return $_ENV[$key];
+    }
+
+    public static function returnResponse(Request $request, Response $response)
+    {
+        $response->prepare($request);
+
+        $response->send();
     }
 }
