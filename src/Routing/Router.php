@@ -33,12 +33,14 @@ abstract class Router
         $routeHandler = $this->getRoute($request);
 
         try {
-            $routeHandler->handleRoute($request);
+            $response = $routeHandler->handleRoute($request);
         } catch (\Exception $e) {
-            Handler::getInstance()->reportError($e, $request);
+            $response = Handler::getInstance()->handleError($e, $request);
         }
 
         App::terminate();
+        
+        App::returnResponse($request, $response);
     }
 
     public function getRoute(Request $request): RouteHandlerBase
@@ -60,9 +62,8 @@ abstract class Router
     
             throw Config::get($finalRouteHandler === null ? 'exceptions.404' : 'exceptions.405');
         } catch (Exception $e) {
-            Handler::getInstance()->reportError($e, $request);
+            throw Config::get('exceptions.502');
         }
-        
     }
 
     public function registerRoutes(RouteInterface ...$routes)

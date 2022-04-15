@@ -11,6 +11,7 @@ use Rxak\Framework\Session\MessageBag;
 use Rxak\Framework\Templating\Templates\ErrorPage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
 class Handler
 {
@@ -31,7 +32,7 @@ class Handler
         return self::$handler ?? self::$handler = new Handler();
     }
 
-    public function reportError(Exception $e, Request $request)
+    public function handleError(Exception $e, Request $request): HttpFoundationResponse
     {
         if ($e instanceof ValidationFailedException) {
             return $this->validationFailed($e, $request);
@@ -42,12 +43,10 @@ class Handler
             $e = new SafeException(502);
         }
 
-        $this->{
-            self::expectsJson($request) ? 'respondJson' : 'respondHtml'
-        }($e, $request);
+        return self::expectsJson($request) ? $this->respondJson($e) : $this->respondHtml($e);
     }
 
-    protected function validationFailed(ValidationFailedException $e, Request $request)
+    protected function validationFailed(ValidationFailedException $e, Request $request): HttpFoundationResponse
     {
         $errors = [];
 
@@ -71,14 +70,10 @@ class Handler
             $response = new RedirectResponse($messageBag->get('rxak.previous_url', '/'));
         }
 
-        App::terminate();
-
-        $response->prepare($request);
-    
-        $response->send();
+        return $response;
     }
 
-    protected function respondJson(SafeException $e, Request $request)
+    protected function respondJson(SafeException $e): HttpFoundationResponse
     {
         $response = new JsonResponse(
             [
@@ -88,20 +83,16 @@ class Handler
             $e->httpResponseCode
         );
 
-        $response->prepare($request);
-
-        $response->send();
+        return $response;
     }
 
-    protected function respondHtml(SafeException $e, Request $request)
+    protected function respondHtml(SafeException $e): HttpFoundationResponse
     {
         $response = new Response(
             new ErrorPage($e->httpResponseCode, $e->getMessage()),
             $e->httpResponseCode
         );
 
-        $response->prepare($request);
-
-        $response->send();
+        return $response;
     }
 }

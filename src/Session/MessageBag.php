@@ -8,7 +8,9 @@ class MessageBag
 
     private const SESSION_KEY = 'rxak.message_bag';
 
-    private array $values = [];
+    public array $values = [];
+
+    public array $newValues = [];
 
     private function __construct()
     {
@@ -34,7 +36,7 @@ class MessageBag
 
     public function set(string $name, mixed $value): void
     {
-        $this->values[$name] = $value;
+        $this->newValues[$name] = $value;
     }
 
     public function get(string $name, mixed $default = null): mixed
@@ -56,7 +58,7 @@ class MessageBag
     {
         $this->set('rxak.previous_url', $_SERVER['REQUEST_URI']);
 
-        Session::set(self::SESSION_KEY, $this->values);
+        Session::set(self::SESSION_KEY, $this->newValues);
     }
 
     public function hasValidationError(string $fieldName): bool
