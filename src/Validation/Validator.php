@@ -3,11 +3,25 @@
 namespace Rxak\Framework\Validation;
 
 use Rxak\Framework\Http\Request;
+use Rxak\Framework\Validation\Rules\EndsWith;
+use Rxak\Framework\Validation\Rules\InArray;
+use Rxak\Framework\Validation\Rules\Max;
+use Rxak\Framework\Validation\Rules\MaxLength;
+use Rxak\Framework\Validation\Rules\Min;
 use Rxak\Framework\Validation\Rules\MinLength;
+use Rxak\Framework\Validation\Rules\NotInArray;
+use Rxak\Framework\Validation\Rules\StartsWith;
 
 abstract class Validator implements ValidatorInterface
 {
+    use EndsWith;
+    use InArray;
+    use Max;
+    use MaxLength;
+    use Min;
     use MinLength;
+    use NotInArray;
+    use StartsWith;
 
     public bool $bail = false;
 
