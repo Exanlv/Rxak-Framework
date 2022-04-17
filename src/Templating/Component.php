@@ -10,12 +10,6 @@ abstract class Component
 
     public function buildPart(): string
     {
-        $vars = get_object_vars($this);
-
-        foreach ($vars as $key => $value) {
-            $$key = $value;
-        }
-
         ob_start();
 
         require Filesystem::getInstance()->baseDir . '/templating/' . static::getFile() . '.php';
