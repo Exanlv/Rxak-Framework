@@ -30,9 +30,8 @@ abstract class Router
 
     public function handleRequest(Request $request): void
     {
-        $routeHandler = $this->getRoute($request);
-
         try {
+            $routeHandler = $this->getRoute($request);
             $response = $routeHandler->handleRoute($request);
         } catch (\Exception $e) {
             $response = Handler::getInstance()->handleError($e, $request);
