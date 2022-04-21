@@ -22,7 +22,7 @@ class CreateMigrationCommand extends Command
 
         $path = MigrateCommand::getMigrationsPath();
 
-        $realMigrationName = date('Y-m-d_Hi') . rand(1000, 9999) . $migrationName;
+        $realMigrationName = date('Y-m-d_Hi') . rand(1000, 9999) . '_' . $migrationName;
 
         $migrationPathFull = $path . '/' . $realMigrationName;
 

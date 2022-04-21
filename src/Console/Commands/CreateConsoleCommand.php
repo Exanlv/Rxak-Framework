@@ -29,7 +29,7 @@ class CreateConsoleCommand extends Command
 
         $commandName[0] = strtoupper($commandName[0]);
 
-        $basePath = Filesystem::getInstance()->baseDir . '/src/Console/Commands';
+        $basePath = Filesystem::getInstance()->baseDir . '/app/Console/Commands';
 
         $finalizedFilename = $basePath . '/' . $commandName . '.php';
 
