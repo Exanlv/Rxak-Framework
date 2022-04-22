@@ -8,9 +8,9 @@ class MessageBag
 
     private const SESSION_KEY = 'rxak.message_bag';
 
-    public array $values = [];
+    private array $values = [];
 
-    public array $newValues = [];
+    private array $newValues = [];
 
     private function __construct()
     {
@@ -36,7 +36,7 @@ class MessageBag
 
     public function set(string $name, mixed $value): void
     {
-        $this->newValues[$name] = $value;
+        $this->values[$name] = $this->newValues[$name] = $value;
     }
 
     public function get(string $name, mixed $default = null): mixed
