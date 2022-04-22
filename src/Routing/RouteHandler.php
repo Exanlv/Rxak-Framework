@@ -6,7 +6,7 @@ use Error;
 use Rxak\Framework\Config\Config;
 use Rxak\Framework\Exception\ValidationFailedException;
 use Rxak\Framework\Http\Request;
-use Rxak\Framework\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class RouteHandler extends RouteHandlerBase
 {
