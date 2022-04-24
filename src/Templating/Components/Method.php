@@ -16,6 +16,6 @@ class Method extends Component
 
     public static function getFile(): string
     {
-        return 'rxak/components/csrf';
+        return 'rxak/components/method';
     }
 }
