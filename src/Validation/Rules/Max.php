@@ -11,7 +11,7 @@ trait Max
     public function max(string $field, int $max)
     {
         $this->performCheck($field, function ($value) use ($max) {
-            return strlen($value) < $max;
+            return $value < $max;
         }, "max:$max");
     }
 }
