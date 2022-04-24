@@ -15,6 +15,6 @@ class ErrorPage extends Page
 
     public static function getFile(): string
     {
-        return 'views/error';
+        return 'rxak/views/error';
     }
 }

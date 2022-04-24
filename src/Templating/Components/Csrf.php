@@ -18,6 +18,6 @@ class Csrf extends Component
 
     public static function getFile(): string
     {
-        return 'components/csrf';
+        return 'rxak/components/csrf';
     }
 }
