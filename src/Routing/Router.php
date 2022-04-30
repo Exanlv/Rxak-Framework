@@ -58,11 +58,11 @@ abstract class Router
     
                 $finalRouteHandler = $routeHandler;
             }
-    
-            throw Config::get($finalRouteHandler === null ? 'exceptions.404' : 'exceptions.405');
         } catch (Exception $e) {
             throw Config::get('exceptions.502');
         }
+
+        throw Config::get($finalRouteHandler === null ? 'exceptions.404' : 'exceptions.405');
     }
 
     public function registerRoutes(RouteInterface ...$routes)
