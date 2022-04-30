@@ -19,17 +19,17 @@ class App
         Logger::init();
 
         /**
+         * Load .env
+         */
+        (Dotenv::createImmutable(Filesystem::getInstance()->baseDir))->load();
+
+        /**
          * Initialize database/eloquent
          */
         $capsule = new Manager();
         $capsule->addConnection(Config::get('database'));
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
-
-        /**
-         * Load .env
-         */
-        (Dotenv::createImmutable(Filesystem::getInstance()->baseDir))->load();
     }
 
     public static function terminate(): void
