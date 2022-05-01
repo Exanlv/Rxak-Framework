@@ -11,7 +11,7 @@ trait Min
     public function min(string $field, int $min)
     {
         $this->performCheck($field, function ($value) use ($min) {
-            return $value > $min;
+            return $value >= $min;
         }, "min:$min");
     }
 }

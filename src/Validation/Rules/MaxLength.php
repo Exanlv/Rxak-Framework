@@ -11,7 +11,7 @@ trait MaxLength
     public function maxLength(string $field, int $length)
     {
         $this->performCheck($field, function ($value) use ($length) {
-            return strlen($value) < $length;
+            return strlen($value) <= $length;
         }, "max_length:$length");
     }
 }
