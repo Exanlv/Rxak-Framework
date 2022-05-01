@@ -7,7 +7,7 @@
             "Rxak\\Framework\\": "src/"
         },
         "files": [
-            "app/Helpers/helpers.php"
+            "src/Helpers/helpers.php"
         ]
     },
     "authors": [
