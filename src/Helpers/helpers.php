@@ -1,7 +1,7 @@
 <?php
 
-use Rxak\Framework\App;
+use Rxak\Framework\Config\Config;
 
 function pub(string $url) {
-    return App::env('PUBLIC_PREFIX', '/') . $url;
+    return Config::get('app')::env('PUBLIC_PREFIX', '/') . $url;
 }

@@ -37,9 +37,14 @@ abstract class Router
             $response = Handler::getInstance()->handleError($e, $request);
         }
 
-        App::terminate();
+        /**
+         * @var \Rxak\Framework\App $app
+         */
+        $app = Config::get('app');
+
+        $app::terminate();
         
-        App::returnResponse($request, $response);
+        $app::returnResponse($request, $response);
     }
 
     public function getRoute(Request $request): RouteHandlerBase

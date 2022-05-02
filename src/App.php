@@ -22,10 +22,13 @@ class App
          * Load .env
          */
         (Dotenv::createImmutable(Filesystem::getInstance()->baseDir))->load();
+    }
 
-        /**
-         * Initialize database/eloquent
-         */
+    /**
+     * Initialize database/eloquent
+     */
+    protected static function initDb(): void
+    {
         $capsule = new Manager();
         $capsule->addConnection(Config::get('database'));
         $capsule->setAsGlobal();
