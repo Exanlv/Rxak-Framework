@@ -3,6 +3,7 @@
 namespace Rxak\Framework\Routing;
 
 use Error;
+use ReflectionMethod;
 use Rxak\Framework\Config\Config;
 use Rxak\Framework\Exception\ValidationFailedException;
 use Rxak\Framework\Http\Request;
@@ -74,22 +75,27 @@ class RouteHandler extends RouteHandlerBase
 
     private function handleMappers(): void
     {
-        if ($this->route->mappers && count($this->matches) > 0) {
-            for ($i = 0; $i < count($this->route->mappers); $i++) {
-                /**
-                 * Set $this->matches[$i] to the resulting value of a callable or a class implementing getFromRoute.
-                 * If result is null $noResult will be true
-                 * @var bool $noResult
-                 */
-                $noResult = null === $this->matches[$i] = is_callable($this->route->mappers[$i])
-                    ? $this->matches[$i] = $this->route->mappers[$i]($this->matches[$i])
-                    : $this->matches[$i] = $this->route->mappers[$i]::getFromRoute($this->matches[$i])
-                ;
+        $reflection = new ReflectionMethod(
+            $this->route->controller,
+            $this->route->method
+        );
 
-                if ($noResult) {
-                    throw Config::get('exceptions.404');
-                }
+        $i = 0;
+        foreach ($reflection->getParameters() as $parameter) {
+            if ($parameter->getType()->getName() === Request::class) {
+                continue;
             }
+
+            $noResult = isset($this->matches[$i])
+                ? null === $this->matches[$i] = $parameter->getType()->getName()::getFromRoute($this->matches[$i])
+                : true
+            ;
+
+            if ($noResult && !$parameter->allowsNull()) {
+                throw Config::get('exceptions.404');
+            }
+
+            $i++;
         }
     }
 

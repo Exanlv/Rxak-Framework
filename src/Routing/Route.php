@@ -28,8 +28,7 @@ class Route implements RouteInterface
         public string $controller,
         public string $method,
         public ?string $validator = null,
-        public array $middlewares = [],
-        public array $mappers = []
+        public array $middlewares = []
     ) {
         
     }
@@ -75,7 +74,6 @@ class Route implements RouteInterface
         $options = array_merge([
                 'validator' => null,
                 'middlewares' => [],
-                'mappers' => [],
             ], $options
         );
 
@@ -85,8 +83,7 @@ class Route implements RouteInterface
             $controller,
             $method,
             $options['validator'],
-            $options['middlewares'],
-            $options['mappers']
+            $options['middlewares']
         );
     }
 
